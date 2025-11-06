@@ -25,5 +25,9 @@ jobs:
       - name: Run Pytest
         run: pytest
 
+      - name: Failure Log
+        if: failure()
+        run: echo "1つ前のステップは失敗しました"
+
       - name: Print DB_USER
         run: echo "DB_USER -> $env:DB_USER"
