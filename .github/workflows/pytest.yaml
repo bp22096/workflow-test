@@ -1,0 +1,33 @@
+name: Run Pytest
+
+on:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  test:
+    runs-on: windows-latest
+    env:
+      DB_USER: "postgres"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version:  3.13
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Pytest
+        run: pytest
+
+      - name: Failure Log
+        if: failure()
+        run: echo "1つ前のステップは失敗しました"
+
+      - name: Print DB_USER
+        run: echo "DB_USER -> $env:DB_USER"
